@@ -23,7 +23,7 @@ namespace CommandsService
 				app.UseSwaggerUI();
 			}
 
-			app.UseHttpsRedirection();
+			//app.UseHttpsRedirection(); // Bruger ikke https i dette projekt
 
 			app.UseAuthorization();
 

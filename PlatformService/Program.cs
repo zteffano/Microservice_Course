@@ -35,7 +35,7 @@ namespace PlatformService
 				app.UseSwaggerUI();
 			}
 
-			app.UseHttpsRedirection();
+			//app.UseHttpsRedirection();  // Bruger ikke https i dette projekt og for at slippe for fejlmeddelelse i browseren
 
 			app.UseAuthorization();
 
