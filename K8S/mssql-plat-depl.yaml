@@ -6,7 +6,7 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app: mssql-depl
+      app: mssql
   template:
     metadata:
       labels:
@@ -28,8 +28,8 @@ spec:
                 name: mssql
                 key: SA_PASSWORD
           volumeMounts:
-            - mountPath: /var/opt/mssql/metadata
-              name: mssqldb
+          - mountPath: /var/opt/mssql/data
+            name: mssqldb
       volumes:
       - name: mssqldb
         persistentVolumeClaim:
@@ -58,6 +58,6 @@ spec:
   selector:
     app: mssql
   ports:
-    protocol: TCP
+  - protocol: TCP
     port: 1433
     targetPort: 1433
