@@ -15,25 +15,41 @@ namespace PlatformService
 
 			builder.Services.AddControllers();
 			// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-			builder.Services.AddDbContext<AppDbContext>(opt => 
-				opt.UseInMemoryDatabase("InMem"));
+
 			builder.Services.AddEndpointsApiExplorer();
 			builder.Services.AddSwaggerGen();
 			builder.Services.AddScoped<IPlatformRepo, PlatformRepo>();
 			builder.Services.AddHttpClient<ICommandDataClient, HttpCommandDataClient>();
+
+			if (builder.Environment.IsProduction())
+			{
+				Console.WriteLine("--> Using SQL Server DB [Production]");
+				builder.Services.AddDbContext<AppDbContext>(opt =>
+									opt.UseSqlServer(builder.Configuration.GetConnectionString("PlatformsConn")));
+			}
+			else
+			{
+				Console.WriteLine("--> Using InMem DB [Development]");
+				builder.Services.AddDbContext<AppDbContext>(opt =>
+													opt.UseInMemoryDatabase("InMem"));
+			}
+	
+
 			// automappper
 			builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 			Console.WriteLine($"--> CommandService Endpoint {builder.Configuration["CommandService"]}");
 
 			var app = builder.Build();
-
+			
 			// Configure the HTTP request pipeline.
 			if (app.Environment.IsDevelopment())
 			{
+			
 				app.UseSwagger();
 				app.UseSwaggerUI();
 			}
+	
 
 			//app.UseHttpsRedirection();  // Bruger ikke https i dette projekt og for at slippe for fejlmeddelelse i browseren
 
@@ -41,7 +57,7 @@ namespace PlatformService
 
 
 			app.MapControllers();
-			PrepDb.PrepPopulation(app);
+			PrepDb.PrepPopulation(app, app.Environment.IsProduction());
 
 			app.Run();
 		}
