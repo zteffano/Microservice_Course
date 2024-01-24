@@ -29,3 +29,6 @@ spec:
     protocol: TCP
     port: 80
     targetPort: 8080
+  - name: platfformgrpc
+    port: 1337
+    targetPort: 1337

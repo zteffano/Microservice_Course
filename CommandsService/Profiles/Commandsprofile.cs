@@ -11,7 +11,7 @@ namespace CommandsService.Profiles
 		{
 			//Source -> Target
 
-			CreateMap<PlatformID, PlatformReadDto>();
+			CreateMap<Platform, PlatformReadDto>();
 			CreateMap<Command, CommandReadDto>();
 			CreateMap<CommandCreateDto, Command>();
 			// Mapper PlatformPublishedDto Id til Platform External Id 

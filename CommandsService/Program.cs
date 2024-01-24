@@ -1,4 +1,5 @@
 
+using CommandsService.AsyncDataServices;
 using CommandsService.Data;
 using CommandsService.EventProcessing;
 using Microsoft.EntityFrameworkCore;
@@ -14,6 +15,7 @@ namespace CommandsService
 			// Add services to the container.
 
 			builder.Services.AddControllers();
+			builder.Services.AddHostedService<MessageBusSubscriber>();
 			// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 			builder.Services.AddEndpointsApiExplorer();
 			builder.Services.AddSwaggerGen();
