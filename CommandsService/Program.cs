@@ -2,6 +2,7 @@
 using CommandsService.AsyncDataServices;
 using CommandsService.Data;
 using CommandsService.EventProcessing;
+using CommandsService.SyncDataServices.Grpc;
 using Microsoft.EntityFrameworkCore;
 
 namespace CommandsService
@@ -23,6 +24,8 @@ namespace CommandsService
 			builder.Services.AddScoped<ICommandRepo, CommandRepo>();
 			builder.Services.AddDbContext<AppDbContext>(opt => opt.UseInMemoryDatabase("InMem"));
 			builder.Services.AddSingleton<IEventProcessor, EventProcessor>();
+			builder.Services.AddScoped<IPlatformDataClient, PlatformDataClient>();
+			
 
 			var app = builder.Build();
 
@@ -39,6 +42,7 @@ namespace CommandsService
 
 
 			app.MapControllers();
+			PrepDb.PrepPopulation(app);
 
 			app.Run();
 		}
